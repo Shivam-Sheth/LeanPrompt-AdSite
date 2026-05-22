@@ -20,14 +20,13 @@ export default function ResetPassword() {
       }
     });
 
-    // Check if we have a valid session already (token already processed)
+    // Check if we have a valid session or recovery token in URL
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) {
-        // No session and no recovery hash = invalid/expired link
         const hash = window.location.hash;
-        if (!hash.includes("access_token") && !hash.includes("type=recovery")) {
-          setInvalid(true);
-        }
+        const search = window.location.search;
+        const hasToken = hash.includes("access_token") || hash.includes("type=recovery") || search.includes("code=");
+        if (!hasToken) setInvalid(true);
       }
     });
 
