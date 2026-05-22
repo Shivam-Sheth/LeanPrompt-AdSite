@@ -9,15 +9,15 @@ import { supabase } from "../lib/supabase";
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 const SITE_META = {
-  "chatgpt.com":       { label: "ChatGPT",  color: "#10b981" },
-  "chat.openai.com":   { label: "ChatGPT",  color: "#10b981" },
-  "claude.ai":         { label: "Claude",   color: "#f59e0b" },
-  "gemini.google.com": { label: "Gemini",   color: "#06b6d4" },
+  "chatgpt.com":       { label: "ChatGPT",  color: "#8b5cf6" },
+  "chat.openai.com":   { label: "ChatGPT",  color: "#8b5cf6" },
+  "claude.ai":         { label: "Claude",   color: "#6366f1" },
+  "gemini.google.com": { label: "Gemini",   color: "#a78bfa" },
 };
-const SITE_OTHER = { label: "Other", color: "#6b7280" };
+const SITE_OTHER = { label: "Other", color: "#475569" };
 
 const INTENT_COLORS = [
-  "#9966ee","#06b6d4","#f59e0b","#10b981","#f43f5e","#8b5cf6","#14b8a6","#fb923c",
+  "#8b5cf6","#6366f1","#a78bfa","#4f46e5","#c084fc","#818cf8","#7c3aed","#d8b4fe",
 ];
 
 function siteInfo(site = "") {
@@ -73,10 +73,10 @@ function PieTooltip({ active, payload }) {
 
 function StatCard({ icon, label, value, sub, accent = "purple" }) {
   const colors = {
-    purple: "from-purple-500/10 to-purple-600/5 border-purple-500/20 text-purple-400",
-    cyan:   "from-cyan-500/10 to-cyan-600/5 border-cyan-500/20 text-cyan-400",
-    green:  "from-green-500/10 to-green-600/5 border-green-500/20 text-green-400",
-    amber:  "from-amber-500/10 to-amber-600/5 border-amber-500/20 text-amber-400",
+    purple: "from-violet-500/10 to-violet-600/5 border-violet-500/20 text-violet-400",
+    cyan:   "from-indigo-500/10 to-indigo-600/5 border-indigo-500/20 text-indigo-400",
+    green:  "from-purple-500/10 to-purple-600/5 border-purple-500/20 text-purple-400",
+    amber:  "from-fuchsia-500/10 to-fuchsia-600/5 border-fuchsia-500/20 text-fuchsia-400",
   };
   return (
     <div className={`bg-gradient-to-br ${colors[accent]} border rounded-2xl p-6`}>
@@ -194,8 +194,8 @@ export default function Dashboard() {
 
   // Accept vs reject
   const actionData = [
-    { name: "Applied", value: applied.length, color: "#9966ee" },
-    { name: "Rejected", value: rows.length - applied.length, color: "#475569" },
+    { name: "Applied", value: applied.length, color: "#8b5cf6" },
+    { name: "Rejected", value: rows.length - applied.length, color: "#1e293b" },
   ].filter((d) => d.value > 0);
 
   // Intent breakdown
@@ -298,15 +298,15 @@ export default function Dashboard() {
                 <AreaChart data={monthlyData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="tokenGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#9966ee" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#9966ee" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.35} />
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tickFormatter={formatNumber} tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} width={45} />
                   <Tooltip content={<DarkTooltip />} />
-                  <Area type="monotone" dataKey="tokens" name="Tokens saved" stroke="#9966ee" strokeWidth={2} fill="url(#tokenGrad)" dot={{ fill: "#9966ee", r: 3 }} />
+                  <Area type="monotone" dataKey="tokens" name="Tokens saved" stroke="#8b5cf6" strokeWidth={2} fill="url(#tokenGrad)" dot={{ fill: "#a78bfa", r: 3 }} />
                 </AreaChart>
               </ResponsiveContainer>
             )}
@@ -387,7 +387,11 @@ export default function Dashboard() {
                   <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} width={35} />
                   <Tooltip content={<DarkTooltip />} cursor={{ fill: "rgba(148,163,184,0.05)" }} />
-                  <Bar dataKey="compressions" name="Compressions" fill="#9966ee" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="compressions" name="Compressions" radius={[6, 6, 0, 0]}>
+                    {monthlyData.map((_, i) => (
+                      <Cell key={i} fill={i % 2 === 0 ? "#8b5cf6" : "#6366f1"} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             )}
