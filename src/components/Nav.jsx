@@ -58,6 +58,12 @@ export default function Nav() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <Link
+            to="/download"
+            className="px-4 py-2 rounded-lg text-sm font-semibold bg-purple-600 hover:bg-purple-500 text-white transition-colors shadow-sm"
+          >
+            Download
+          </Link>
           {session ? (
             <>
               <Link
@@ -104,6 +110,9 @@ export default function Nav() {
               {l.label}
             </button>
           ))}
+          <Link to="/download" onClick={() => setOpen(false)} className="block py-2 font-semibold text-purple-600 hover:text-purple-500">
+            Download extension
+          </Link>
           <div className="pt-2 border-t border-neutral-100 mt-1">
             {session ? (
               <>

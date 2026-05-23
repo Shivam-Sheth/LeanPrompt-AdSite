@@ -14,9 +14,15 @@ export default function Hero({ onTryDemo, onSeeImpact }) {
             Optimize prompts before you hit send. LeanPrompt rewrites your input into shorter, more efficient versions that preserve intent while reducing token usage, estimated cost, and carbon footprint in every AI interaction.
           </p>
           <div className="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a
+              href="/download"
+              className="px-6 py-3.5 rounded-xl bg-purple-600 text-white font-semibold shadow-lg shadow-purple-600/25 hover:bg-purple-700 hover:shadow-purple-600/30 transition-all duration-200"
+            >
+              Download for Chrome
+            </a>
             <button
               onClick={onTryDemo}
-              className="px-6 py-3.5 rounded-xl bg-purple-600 text-white font-semibold shadow-lg shadow-purple-600/25 hover:bg-purple-700 hover:shadow-purple-600/30 transition-all duration-200"
+              className="px-6 py-3.5 rounded-xl border-2 border-purple-600 text-purple-700 font-semibold hover:bg-purple-50 transition-all duration-200"
             >
               Try Demo
             </button>

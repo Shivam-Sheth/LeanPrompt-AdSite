@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:extension-zip": "npm run package --prefix ../leanprompt-extension",
     "lint": "eslint .",
     "preview": "vite preview"
   },

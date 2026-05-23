@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
+import Download from "./pages/Download";
 
 function Landing() {
   const scrollTo = useCallback((id) => {
@@ -38,7 +39,7 @@ function Landing() {
 
 function AppRoutes() {
   const location = useLocation();
-  const isAuthPage = ["/login", "/dashboard", "/reset-password"].includes(location.pathname);
+  const isAuthPage = ["/login", "/dashboard", "/reset-password", "/download"].includes(location.pathname);
 
   return (
     <Routes>
@@ -46,6 +47,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/download" element={<Download />} />
     </Routes>
   );
 }

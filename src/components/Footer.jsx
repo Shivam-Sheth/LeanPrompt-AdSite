@@ -8,13 +8,14 @@ export default function Footer() {
             <p className="text-sm text-neutral-400 mt-0.5">Grammarly for AI prompts</p>
           </div>
           <nav className="flex gap-8 text-sm">
+            <a href="/download" className="hover:text-purple-400 transition-colors">Download</a>
             <a href="#problem" className="hover:text-purple-400 transition-colors">About</a>
             <a href="#demo" className="hover:text-purple-400 transition-colors">Demo</a>
             <a href="#impact" className="hover:text-purple-400 transition-colors">Contact</a>
           </nav>
         </div>
         <p className="mt-8 text-center text-xs text-neutral-500">
-          © {new Date().getFullYear()} LeanPrompt. Demo only—no backend or LLM integration.
+          © {new Date().getFullYear()} LeanPrompt. Chrome extension + Supabase auth; compression runs locally in the browser.
         </p>
       </div>
     </footer>
