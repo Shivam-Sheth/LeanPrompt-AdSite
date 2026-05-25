@@ -44,7 +44,7 @@ export default function Hero({ onTryDemo, onSeeImpact }) {
 
 function MockChatVisual() {
   const original = "Please analyze the following social media post and determine whether it contains misinformation...";
-  const optimized = "Classify this post for vaccine misinformation as true, false, or misleading. Briefly explain why.";
+  const optimized = "Label this post: vaccine misinfo — true, false, or misleading? Explain briefly.";
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white shadow-xl shadow-neutral-200/50 overflow-hidden">
       <div className="px-4 py-3 border-b border-neutral-100 bg-neutral-50/80 flex items-center gap-2">
@@ -65,7 +65,7 @@ function MockChatVisual() {
         <div className="rounded-xl bg-purple-50 border border-purple-100 p-3 glow-purple">
           <p className="text-xs font-medium text-purple-700 uppercase tracking-wider mb-1">LeanPrompt</p>
           <p className="text-sm text-neutral-800 line-clamp-2">{optimized}</p>
-          <p className="mt-2 text-xs text-purple-600 font-medium">~18 tokens · 57% fewer</p>
+          <p className="mt-2 text-xs text-purple-600 font-medium">~13 tokens · 69% fewer</p>
         </div>
         <div className="flex gap-3 pt-2">
           <MetricPill label="Cost" value="-38%" />

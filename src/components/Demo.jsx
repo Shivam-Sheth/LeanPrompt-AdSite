@@ -5,41 +5,53 @@ const examples = [
     id: "fake-news",
     label: "Fake news classification",
     original: "Please analyze the following social media post and determine whether it contains misinformation related to vaccines. Explain your reasoning clearly and classify it as true, false, or misleading.",
-    optimized: "Classify this post for vaccine misinformation as true, false, or misleading. Briefly explain why.",
+    optimized: "Label this post: vaccine misinfo — true, false, or misleading? Explain briefly.",
     tokensBefore: 42,
-    tokensAfter: 18,
-    costReduction: 38,
-    carbonReduction: 32,
+    tokensAfter: 13,
+    costReduction: 55,
+    carbonReduction: 50,
   },
   {
     id: "email",
     label: "Email drafting",
     original: "Please help me write a polite and professional email to my professor asking for an extension on my assignment because I have been dealing with personal issues and need a little more time.",
-    optimized: "Draft a polite email to my professor requesting an extension due to personal issues.",
+    optimized: "Email professor: politely request assignment extension, citing personal issues.",
     tokensBefore: 38,
-    tokensAfter: 16,
-    costReduction: 29,
-    carbonReduction: 24,
+    tokensAfter: 11,
+    costReduction: 57,
+    carbonReduction: 52,
   },
   {
     id: "summarization",
     label: "Document summarization",
     original: "Can you read the following long text and summarize the main ideas into concise bullet points while making sure nothing important is left out?",
-    optimized: "Summarize the text into concise bullet points covering all key ideas.",
+    optimized: "Summarize this text as bullet points. Cover all key ideas.",
     tokensBefore: 28,
-    tokensAfter: 12,
-    costReduction: 42,
-    carbonReduction: 38,
+    tokensAfter: 10,
+    costReduction: 51,
+    carbonReduction: 46,
   },
   {
     id: "coding",
     label: "Coding help",
     original: "Please review the following Python code, identify any bugs or inefficiencies, explain what is going wrong, and provide a corrected version with comments.",
-    optimized: "Review this Python code, identify bugs and inefficiencies, explain them briefly, and return a corrected commented version.",
+    optimized: "Debug this Python code: explain issues, return fixed version with comments.",
     tokensBefore: 35,
-    tokensAfter: 20,
-    costReduction: 31,
-    carbonReduction: 28,
+    tokensAfter: 12,
+    costReduction: 53,
+    carbonReduction: 48,
+  },
+  {
+    id: "partial",
+    label: "Partial selection",
+    isPartial: true,
+    context: `def calculate_discount(price, discount_percent):\n    if discount_percent > 100:\n        return 0\n    discount = price * discount_percent\n    return price - discount`,
+    originalInstruction: "Please carefully review this function, identify any bugs or logic errors that are present, explain what is going wrong in detail, and then provide me with a corrected version of the code.",
+    optimized: "Find bugs/logic errors, explain, return fixed version.",
+    tokensBefore: 35,
+    tokensAfter: 9,
+    costReduction: 59,
+    carbonReduction: 54,
   },
 ];
 
@@ -54,7 +66,7 @@ export default function Demo() {
           Try the demo
         </h2>
         <p className="mt-4 text-neutral-600 text-center max-w-2xl mx-auto">
-          Click an example to see how LeanPrompt optimizes prompts—no API calls, simulated results for demo.
+          Click an example to see how LeanPrompt optimizes prompts — no API calls, simulated results for demo.
         </p>
 
         <div className="mt-12 grid lg:grid-cols-5 gap-8">
@@ -70,40 +82,100 @@ export default function Demo() {
                 }`}
               >
                 <span className="font-medium text-neutral-900">{ex.label}</span>
+                {ex.isPartial && (
+                  <span className="ml-2 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">highlight only</span>
+                )}
               </button>
             ))}
           </div>
 
           <div className="lg:col-span-3 rounded-2xl border border-neutral-200 bg-neutral-50/50 p-6 lg:p-8 shadow-sm">
-            <div className="space-y-6">
-              <div>
-                <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Original prompt</p>
-                <p className="text-neutral-700 bg-white rounded-xl p-4 border border-neutral-200 shadow-sm">
-                  {selected.original}
-                </p>
-                <p className="mt-1 text-sm text-neutral-500">{selected.tokensBefore} tokens</p>
-              </div>
-              <div className="flex items-center gap-2 text-purple-600 font-medium">
-                <span>↓</span>
-                <span>LeanPrompt optimized</span>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-2">Optimized prompt</p>
-                <p className="text-neutral-800 bg-purple-50 rounded-xl p-4 border border-purple-100">
-                  {selected.optimized}
-                </p>
-                <p className="mt-1 text-sm text-purple-600 font-medium">{selected.tokensAfter} tokens</p>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
-                <MetricCard label="Token reduction" value={`${tokenReduction}%`} sub={`${selected.tokensBefore} → ${selected.tokensAfter}`} />
-                <MetricCard label="Cost saved" value={`~${selected.costReduction}%`} sub="est. inference" />
-                <MetricCard label="CO₂ reduction" value={`~${selected.carbonReduction}%`} sub="est. per query" />
-              </div>
-            </div>
+            {selected.isPartial ? (
+              <PartialDemo selected={selected} tokenReduction={tokenReduction} />
+            ) : (
+              <StandardDemo selected={selected} tokenReduction={tokenReduction} />
+            )}
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function StandardDemo({ selected, tokenReduction }) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Original prompt</p>
+        <p className="text-neutral-700 bg-white rounded-xl p-4 border border-neutral-200 shadow-sm">
+          {selected.original}
+        </p>
+        <p className="mt-1 text-sm text-neutral-500">{selected.tokensBefore} tokens</p>
+      </div>
+      <div className="flex items-center gap-2 text-purple-600 font-medium">
+        <span>↓</span>
+        <span>LeanPrompt optimized</span>
+      </div>
+      <div>
+        <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-2">Optimized prompt</p>
+        <p className="text-neutral-800 bg-purple-50 rounded-xl p-4 border border-purple-100">
+          {selected.optimized}
+        </p>
+        <p className="mt-1 text-sm text-purple-600 font-medium">{selected.tokensAfter} tokens</p>
+      </div>
+      <Metrics selected={selected} tokenReduction={tokenReduction} />
+    </div>
+  );
+}
+
+function PartialDemo({ selected, tokenReduction }) {
+  return (
+    <div className="space-y-5">
+      <div>
+        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Full prompt</p>
+
+        <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-neutral-100">
+            <span className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Context — not selected</span>
+          </div>
+          <pre className="px-4 py-3 text-sm text-neutral-500 font-mono whitespace-pre-wrap leading-relaxed">{selected.context}</pre>
+
+          <div className="border-t border-amber-200 bg-amber-50 px-4 py-3">
+            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">Selected instruction</span>
+            <p className="mt-1 text-neutral-700 text-sm leading-relaxed">{selected.originalInstruction}</p>
+          </div>
+        </div>
+        <p className="mt-1 text-sm text-neutral-500">{selected.tokensBefore} tokens selected</p>
+      </div>
+
+      <div className="flex items-center gap-2 text-purple-600 font-medium text-sm">
+        <span>↓</span>
+        <span>LeanPrompt compresses selection only</span>
+      </div>
+
+      <div>
+        <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-2">Result sent to AI</p>
+        <div className="bg-purple-50 rounded-xl border border-purple-100 overflow-hidden">
+          <pre className="px-4 py-3 text-sm text-neutral-500 font-mono whitespace-pre-wrap leading-relaxed">{selected.context}</pre>
+          <div className="border-t border-purple-200 px-4 py-3">
+            <p className="text-neutral-800 text-sm font-medium">{selected.optimized}</p>
+          </div>
+        </div>
+        <p className="mt-1 text-sm text-purple-600 font-medium">{selected.tokensAfter} tokens (instruction only)</p>
+      </div>
+
+      <Metrics selected={selected} tokenReduction={tokenReduction} />
+    </div>
+  );
+}
+
+function Metrics({ selected, tokenReduction }) {
+  return (
+    <div className="grid grid-cols-3 gap-4 pt-2">
+      <MetricCard label="Token reduction" value={`${tokenReduction}%`} sub={`${selected.tokensBefore} → ${selected.tokensAfter}`} />
+      <MetricCard label="Cost saved" value={`~${selected.costReduction}%`} sub="est. inference" />
+      <MetricCard label="CO₂ reduction" value={`~${selected.carbonReduction}%`} sub="est. per query" />
+    </div>
   );
 }
 
