@@ -166,7 +166,7 @@ export default function Privacy() {
               ["scripting", "Inject the optimization overlay on supported sites"],
               ["identity", "Enable Google Sign-In"],
               ["alarms", "Refresh your login session in the background"],
-              ["contextMenus", "Add "Disable on this site" to the right-click menu"],
+              ["contextMenus", "Add 'Disable on this site' to the right-click menu"],
             ]}
           />
         </Section>
