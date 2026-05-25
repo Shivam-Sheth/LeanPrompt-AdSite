@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="py-12 bg-neutral-900 text-neutral-300">
@@ -11,12 +13,15 @@ export default function Footer() {
             <a href="/download" className="hover:text-purple-400 transition-colors">Download</a>
             <a href="#problem" className="hover:text-purple-400 transition-colors">About</a>
             <a href="#demo" className="hover:text-purple-400 transition-colors">Demo</a>
-            <a href="#impact" className="hover:text-purple-400 transition-colors">Contact</a>
+            <a href="mailto:shethshivam123@gmail.com" className="hover:text-purple-400 transition-colors">Contact</a>
           </nav>
         </div>
-        <p className="mt-8 text-center text-xs text-neutral-500">
-          © {new Date().getFullYear()} LeanPrompt. Chrome extension + Supabase auth; compression runs locally in the browser.
-        </p>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 text-xs text-neutral-500">
+          <p>© {new Date().getFullYear()} LeanPrompt. All rights reserved.</p>
+          <Link to="/privacy" className="hover:text-neutral-300 transition-colors underline underline-offset-2">
+            Privacy Policy
+          </Link>
+        </div>
       </div>
     </footer>
   );

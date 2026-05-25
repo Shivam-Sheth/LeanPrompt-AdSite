@@ -24,7 +24,7 @@ export default function Login() {
     clearMessages();
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: "https://lean-prompt.vercel.app/dashboard" },
+      options: { redirectTo: "https://www.leanprompt.net/dashboard" },
     });
     if (err) setError(err.message);
   };
@@ -37,7 +37,7 @@ export default function Login() {
 
     if (forgotMode) {
       const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://lean-prompt.vercel.app/reset-password",
+        redirectTo: "https://www.leanprompt.net/reset-password",
       });
       setLoading(false);
       if (err) { setError(err.message); return; }

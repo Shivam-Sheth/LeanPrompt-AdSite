@@ -217,14 +217,9 @@ export default function Download() {
             ← Back to home
           </Link>
           <div className="flex gap-6">
-            <a
-              href="https://gist.github.com/Shivam-Sheth/c361311cd27a18428c47c58253693f3d"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-neutral-900 transition-colors"
-            >
+            <Link to="/privacy" className="hover:text-neutral-900 transition-colors">
               Privacy Policy
-            </a>
+            </Link>
             <a href="mailto:shethshivam123@gmail.com" className="hover:text-neutral-900 transition-colors">
               Support
             </a>

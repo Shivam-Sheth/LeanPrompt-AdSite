@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import Download from "./pages/Download";
+import Privacy from "./pages/Privacy";
 
 function Landing() {
   const scrollTo = useCallback((id) => {
@@ -48,6 +49,7 @@ function AppRoutes() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/download" element={<Download />} />
+      <Route path="/privacy" element={<Privacy />} />
     </Routes>
   );
 }
