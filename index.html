@@ -2,6 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // LeanPrompt extension OAuth bounce.
+      // The Chrome extension signs in via chrome.identity.launchWebAuthFlow with a
+      // chromiumapp.org redirect. If Supabase falls back to the Site URL, the OAuth
+      // code lands here at the site root (?code=...) with nothing to complete it.
+      // We forward it to the extension's pinned redirect so launchWebAuthFlow catches
+      // it and the extension (which holds the PKCE verifier) exchanges the code.
+      (function () {
+        try {
+          var EXT_ID = "glogpdhondpaliiflfgaoigoignehdnf";
+          var path = window.location.pathname;
+          var atRoot = path === "/" || path === "" || path === "/auth/extension";
+          var qs = window.location.search.replace(/^\?/, "");
+          var hs = window.location.hash.replace(/^#/, "");
+          var raw = qs || hs;
+          if (!raw) return;
+          var params = new URLSearchParams(raw);
+          var hasCode = params.get("code") || params.get("access_token");
+          var hasError = params.get("error") || params.get("error_description");
+          // Website's own Google login redirects to /dashboard, never the root.
+          // So a code/token at the root is the extension OAuth fallback.
+          if (atRoot && (hasCode || hasError)) {
+            window.location.replace("https://" + EXT_ID + ".chromiumapp.org/?" + raw);
+          }
+        } catch (e) {
+          /* no-op: fall through to normal site load */
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LeanPrompt — Grammarly for AI prompts</title>
