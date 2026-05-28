@@ -1,4 +1,6 @@
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import TermsModal from "../components/TermsModal";
 
 const EXTENSION_ZIP = "/leanprompt-extension.zip";
 
@@ -73,8 +75,31 @@ const steps = [
 ];
 
 export default function Download() {
+  const [termsOpen, setTermsOpen] = useState(false);
+  const downloadRef = useRef(null);
+
+  function triggerDownload() {
+    const a = document.createElement("a");
+    a.href = EXTENSION_ZIP;
+    a.download = "leanprompt-extension.zip";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function handleAccept() {
+    try {
+      localStorage.setItem("lp_terms_accepted_at", new Date().toISOString());
+    } catch {
+      /* ignore storage errors */
+    }
+    setTermsOpen(false);
+    triggerDownload();
+  }
+
   return (
     <div className="min-h-screen bg-neutral-50 font-sans">
+      <TermsModal open={termsOpen} onClose={() => setTermsOpen(false)} onAccept={handleAccept} />
       {/* Nav */}
       <header className="border-b border-neutral-200 bg-white/80 backdrop-blur sticky top-0 z-10">
         <div className="container mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
@@ -102,16 +127,24 @@ export default function Download() {
           </p>
 
           {/* Download CTA */}
-          <a
-            href={EXTENSION_ZIP}
-            download="leanprompt-extension.zip"
+          <button
+            ref={downloadRef}
+            onClick={() => setTermsOpen(true)}
             className="mt-8 inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-purple-700 font-bold text-lg shadow-xl shadow-purple-900/30 hover:bg-purple-50 active:scale-95 transition-all duration-150"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
             Download for Chrome · Free
-          </a>
+          </button>
+
+          <p className="mt-3 text-purple-200 text-xs">
+            By downloading you agree to our{" "}
+            <button onClick={() => setTermsOpen(true)} className="underline underline-offset-2 hover:text-white">
+              Terms &amp; Conditions
+            </button>
+            .
+          </p>
 
           <p className="mt-4 text-purple-200 text-sm">
             Also available on the{" "}
@@ -132,8 +165,8 @@ export default function Download() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
             </svg>
             <div>
-              <span className="font-semibold text-white">This is a beta release.</span> Compression is accurate on most prompts but may occasionally shorten things too aggressively or miss nuance. You always see the compressed version before it's sent — you're in control. Found a bug?{" "}
-              <a href="mailto:shethshivam123@gmail.com" className="underline underline-offset-2 hover:text-white">
+              <span className="font-semibold text-white">This is a beta release.</span> Compression is accurate on most prompts but may occasionally shorten things too aggressively or miss nuance.               You always see the compressed version before it's sent — you're in control. Found a bug?{" "}
+              <a href="mailto:leanpromptsupport@gmail.com" className="underline underline-offset-2 hover:text-white">
                 Let us know.
               </a>
             </div>
@@ -220,7 +253,10 @@ export default function Download() {
             <Link to="/privacy" className="hover:text-neutral-900 transition-colors">
               Privacy Policy
             </Link>
-            <a href="mailto:shethshivam123@gmail.com" className="hover:text-neutral-900 transition-colors">
+            <button onClick={() => setTermsOpen(true)} className="hover:text-neutral-900 transition-colors">
+              Terms
+            </button>
+            <a href="mailto:leanpromptsupport@gmail.com" className="hover:text-neutral-900 transition-colors">
               Support
             </a>
           </div>
