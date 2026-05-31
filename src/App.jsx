@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import Download from "./pages/Download";
 import Privacy from "./pages/Privacy";
+import Confirmed from "./pages/Confirmed";
 
 function Landing() {
   const scrollTo = useCallback((id) => {
@@ -50,6 +51,7 @@ function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/download" element={<Download />} />
       <Route path="/privacy" element={<Privacy />} />
+      <Route path="/confirmed" element={<Confirmed />} />
     </Routes>
   );
 }
