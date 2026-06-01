@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-const LAST_UPDATED = "May 2026";
-const CONTACT = "shethshivam123@gmail.com";
+const LAST_UPDATED = "June 2026";
+const CONTACT = "leanpromptsupport@gmail.com";
 
 function Section({ title, children }) {
   return (
@@ -100,11 +100,28 @@ export default function Privacy() {
 
         <Section title="What we do NOT collect">
           <ul className="list-disc list-inside space-y-1 text-neutral-600">
-            <li>Web pages or browsing history — we only process text you explicitly compress</li>
-            <li>Keystrokes or mouse activity</li>
-            <li>Payment information (LeanPrompt is currently free)</li>
-            <li>Device identifiers beyond standard server access logs</li>
+            <li>Web pages, page content, or browsing history — we only process the prompt text you explicitly compress</li>
+            <li>Keystrokes, mouse activity, or analytics/advertising trackers</li>
+            <li>Payment card details — if/when paid plans launch, card data is handled solely by Stripe and never reaches our servers (see "Payments" below)</li>
+            <li>Device identifiers or location beyond standard server access logs (IP, user agent)</li>
           </ul>
+          <P>
+            We do <strong className="text-neutral-800">not sell</strong> your data, and we do not use it for advertising,
+            credit, or any purpose unrelated to providing and improving LeanPrompt.
+          </P>
+        </Section>
+
+        <Section title="Payments &amp; paid plans">
+          <P>
+            LeanPrompt is currently free. We may introduce optional paid plans in the future. If you choose to
+            purchase one, payments will be processed by{" "}
+            <strong className="text-neutral-800">Stripe, Inc.</strong> Stripe collects and stores your payment details
+            (such as card information and billing address) under its own{" "}
+            <a href="https://stripe.com/privacy" target="_blank" rel="noreferrer" className="text-purple-600 hover:underline">privacy policy</a>.
+            We never receive or store your full card number. We retain only non-sensitive billing records (for example,
+            your plan, subscription status, and a Stripe customer ID) linked to your account so we can manage your
+            subscription.
+          </P>
         </Section>
 
         <Section title="How data flows">
@@ -148,25 +165,30 @@ export default function Privacy() {
           <Table
             headers={["Service", "Purpose", "Data shared"]}
             rows={[
-              ["Supabase", "Database and authentication", "Email, prompt feedback, usage stats"],
-              ["Google Gemini API", "Cloud prompt compression", "Prompt text (when API Assist is on)"],
-              ["OpenAI API", "Compression pattern analysis", "Rejected prompt examples"],
-              ["Vercel", "Web app hosting", "Server access logs (IP, user agent)"],
+              ["Supabase (Supabase, Inc.)", "Database and authentication", "Email, prompt feedback, usage stats, auth tokens"],
+              ["Google Gemini API (Google LLC)", "Cloud prompt compression", "Prompt text (only when API Assist is on)"],
+              ["OpenAI API (OpenAI, L.L.C.)", "Compression pattern analysis", "Rejected prompt examples"],
+              ["Vercel (Vercel, Inc.)", "Web app hosting", "Server access logs (IP, user agent)"],
+              ["Stripe (Stripe, Inc.)", "Payment processing (future paid plans)", "Payment & billing details (handled by Stripe; not stored by us)"],
             ]}
           />
-          <P>All services are based in the United States.</P>
+          <P>
+            These are the only parties your data is shared with. All listed services are based in the United States,
+            so your data may be processed there. We share data with each party only for the purpose listed above and
+            never sell it to anyone.
+          </P>
         </Section>
 
         <Section title="Chrome extension permissions">
           <Table
             headers={["Permission", "Why"]}
             rows={[
-              ["storage", "Save settings and pending feedback queue"],
-              ["activeTab", "Read prompt text from the active AI tool tab"],
-              ["scripting", "Inject the optimization overlay on supported sites"],
+              ["storage", "Save settings, usage counts, and the pending feedback queue"],
               ["identity", "Enable Google Sign-In"],
-              ["alarms", "Refresh your login session in the background"],
+              ["alarms", "Refresh your login session and check for updates in the background"],
               ["contextMenus", "Add 'Disable on this site' to the right-click menu"],
+              ["tabs", "Detect the active AI tool's domain to position the overlay and route messages"],
+              ["host permissions (AI tool sites)", "Show the optimization overlay and read the prompt text you choose to compress on supported AI sites"],
             ]}
           />
         </Section>
